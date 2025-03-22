@@ -84,16 +84,16 @@ private:
         }
 
         Player& newPlayer = state.players[state.playerCount];
-        // Generate unique player ID using the player count as a simple incrementing identifier
-        newPlayer.playerId = state.playerCount + 1;
+        // Generate unique player ID from the invocator's ID
+        newPlayer.playerId = qpi.invocator();
         
         // Copy name and team with bounds checking
-        for (uint64 i = 0; i < 31 && input.name[i] != 0; i++) {
+        for (uint64 i = 0; i < 31u && input.name[i] != 0; i++) {
             newPlayer.name[i] = input.name[i];
         }
         newPlayer.name[31] = 0;
         
-        for (uint64 i = 0; i < 31 && input.team[i] != 0; i++) {
+        for (uint64 i = 0; i < 31u && input.team[i] != 0; i++) {
             newPlayer.team[i] = input.team[i];
         }
         newPlayer.team[31] = 0;
