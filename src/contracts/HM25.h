@@ -14,8 +14,7 @@ public:
 
     struct Player {
         id playerId;
-        char name[32];
-        char team[32];
+        id teamId;
         uint64 targetAmount;
         uint64 currentAmount;
         uint64 sharesAvailable;
@@ -33,8 +32,8 @@ public:
 
     // Input/Output structures for procedures
     struct CreatePlayer_input {
-        char name[32];
-        char team[32];
+        id playerId;
+        id teamId;
         uint64 targetAmount;
         uint64 sharePrice;
     };
@@ -84,20 +83,9 @@ private:
         }
 
         Player& newPlayer = state.players[state.playerCount];
-        // Generate unique player ID from the invocator's ID
-        newPlayer.playerId = qpi.invocator();
-        
-        // Copy name and team with bounds checking
-        for (uint64 i = 0; i < 31u && input.name[i] != 0; i++) {
-            newPlayer.name[i] = input.name[i];
-        }
-        newPlayer.name[31] = 0;
-        
-        for (uint64 i = 0; i < 31u && input.team[i] != 0; i++) {
-            newPlayer.team[i] = input.team[i];
-        }
-        newPlayer.team[31] = 0;
-        
+        // Store player and team IDs
+        newPlayer.playerId = input.playerId;
+        newPlayer.teamId = input.teamId;
         newPlayer.targetAmount = input.targetAmount;
         newPlayer.currentAmount = 0;
         newPlayer.sharesAvailable = TOTAL_SHARES_PER_PLAYER;
